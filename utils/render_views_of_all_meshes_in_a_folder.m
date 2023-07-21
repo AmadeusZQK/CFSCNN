@@ -25,10 +25,20 @@ for fi=range
         fprintf('Done.\n');
     end
 
-%   [~,ims,~] = render_views_gouraud(mesh, 'figHandle', fig); %seems not good
-   [~,ims,~] = render_views(mesh, 'figHandle', fig);
-    for ij=1:length(ims)
-        imwrite( ims{ij}, sprintf('%s_%03d%s', mesh_filenames(fi).name(1:end-4), ij, opts.ext) );
-    end
+   % Check if the rendered file already exists, if yes, skip the rendering and saving
+   rendered_file_exists = false;
+   for ij=1:24 % assuming we will generate 20 images per shape
+       if exist(sprintf('%s_%03d%s', mesh_filenames(fi).name(1:end-4), ij, opts.ext), 'file')
+           rendered_file_exists = true;
+           break;
+       end
+   end
+
+   if ~rendered_file_exists
+       [~,ims,~] = render_views(mesh, 'figHandle', fig);
+       for ij=1:length(ims)
+           imwrite( ims{ij}, sprintf('%s_%03d%s', mesh_filenames(fi).name(1:end-4), ij, opts.ext) );
+       end
+   end
 end
 close(fig);
