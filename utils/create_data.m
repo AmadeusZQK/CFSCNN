@@ -1,4 +1,6 @@
-listing=rdir(modelnet40path);%add your modelnet40 dataset path
+listing=rdir('C:\Users\root\Desktop\Repositories\CFSCNN\data\modelnet40');%add your modelnet40 dataset path
+
+
 for i=1:numel(listing)
    
    trainset = fullfile(listing(i).name,'train');
